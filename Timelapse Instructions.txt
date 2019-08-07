@@ -1,0 +1,246 @@
+Timelapse Video Instructions:
+
+Before getting cell ready:
+
+1) Start Inucbation Stage (the one power switch on right): 
+	~ 1hr before to let warm up. Don't wait the hour if you forgot. 
+	Just turn it on and go.
+	Scope doesn't necessarily need to be on for this step.
+	Put the stage on the scope, screwing it down (LIGHTLY, to avoid stripping plastic screws)
+	Put dummy plate in stage for now.
+	Put glass heated cover over the top.
+	Done.
+	
+2) Fill bottle with distilled water (like from the grocery store) (NOT DI WATER... too corrosive)
+	Fill up to edge of black metal sleeve that the bottle sits in
+	
+2) Make sure there is enough disk space for the timelapse
+	It's about 172 GB a day for 3 channels (BF1, BF2, 390-Soft) at 30 minute intervals for 16 wells.
+	
+2) Load Plate
+
+3) Put plate on stage shoving it to the upper right corner as a habit to get more repeatable positioning of the plate.
+
+4) Set Location Array
+	NDAcquisition Tab > XY subtab > Clear all (rightmost X) > Click 'Custom...' Button
+	4 rows by 4 cols > Spacing 9mm X 9 mm Typical > OK
+	
+5) Align scope to center of upper left well
+	Go to 4X and BF to center yourself in the upperleft well. (Adjust LUTs if necessary)
+	Make sure 'Move Stage to Selected Point is UNchecked
+	Make sure that well 'A1' is selected in the ND Acquisition tab.
+	Make sure 'Move Stage to Selected Point is Checked
+	Click 'Offset All X,Y'
+	UNcheck 'Relative XY'
+	Re-Check 'Relative XY'
+	
+6) Level the Plate
+	Go to 20X
+	Roughly focus first (to allow PFS to be able to 'lock on')
+	Turn on Perfect Focus System (PFS)
+	Roughly focus with PFS Offset control knob once again
+	Level Front-to-Back using wells 'A4' and 'D4'
+		Go to 'A4'
+		Check the z position on the front display of the microscope
+		Go to 'D4'
+		Adjust to bring closer to 'A4' height but overshoot by ~ 50%
+		Go to 'A4' and check
+		Repeat until within ~3 microns
+	Level Left-to-Right using wells 'B1' and 'B4'
+		Go to 'B4' first
+		Then proceed like you did for Front-to-Back but use and overshoot of ~100%
+	Double check 'A4' and 'D4' again for levelness.
+	
+7) Set the camera parameters
+	390-Soft: (Turn off show live by hitting STOP button) Set to 150 ms
+	BF1: 40 ms exposure with intensity ~25,000 units on LUT (both neutral density filters IN place). Use front slide lever to adjust intensity
+	BF2: 40 ms exposure
+	
+8) Perform Koehler Illumination Adjustment
+	Close the F-stop aperture nearly all the way.
+	Adjust the big 'Double Knob' until you can see crisp edges of the aperture
+	Open aperture back up well past the edge of the image
+	
+9) Set the location to save images
+	Start name with a Year:Month:Day nomenclature followed by a brief title (e.g., 2019.08.04 - Pt 645)
+
+10) Double Check ND Acquisition Parameters
+	Time: 30 minute intervals for ~3 days
+	XY: All locations selected (if you only want some locations, don't just uncheck them, but remove them using the X symbol button (the left one))
+	Large Image: 3 X 3 > Do Not Stitch > 1% Overlap > Close Active Shutter During Stage Movement Checked
+	Z: Symmetric Mode clicked (middle button) > Relative Selected (Home is highlighted on left, but Relative is shown on Graph) > Steps = 1 > Range = 0
+	Lambda: In this order... BF1 (-3 µm offset), BF2 (+3 µm offset), 390-Soft (Reference Channel)
+	Boxes below the table are left unchecked
+	
+11) Perform final focus step in BF (WITH PFS ON!!!)
+	Find MM cells
+	Adjust PFS offset knob until cells basically are in focus but blend into background
+
+11) Start the timelapse
+	Make sure you are in well 'A1' (or the first well in your XY list) and that well is selected in the XY list
+	Turn off lights
+	Close door
+	Click 'Run Now'
+	
+12) Make sure the timelapse is working
+	Go to the save folder and look at the first few montages that get saved.
+	Check all wells after the first timepoint when you import into JEX next.
+	
+	
+JEX:
+
+1) Sign into the computer (typically the computer to the left of the microscope)
+
+2) Open 'Eclipse' (located at C:/Users/Miyamoto/eclipse/java-oxygen/eclipse.exe)
+
+3) Start 'JEX' by hitting the green 'play' button (click 'proceed' if necessary)
+
+4) Click your username.
+
+5) Create the new database
+	Click the '+' sign to create a new database for the patient sample
+	Name it (e.g., 2019.08.04 - Pt 645) Match name of the folder you saved the raw data in
+	Click 'Yes'
+	Click the icon for the database you want
+	Click 'Add Dataset' (bottom of window)
+	Name it 'Plate'
+	Define the correct number of rows and cols on your plate (i.e., the 'Array Width' and 'Array Height', typically 4 Rows, 4 Cols)
+	
+6) Make the labels for the database
+	Click the 'Label' button on the top of the window (#4)
+	Make a label named 'Tx' and a label named 'Rep' in the left hand sub-window
+	Select 'Tx' from the list.
+	In the right-hand window, create the list of Tx's (Best if no spaces. Use period maybe instead)
+	Select 'Rep' from the list.
+	In the right-hand window, create the list of Reps's (Typically 1, 2, 3,... etc.)
+	
+	Select the Tx's and Rep's and apply them and save them to the array
+	
+	Click 'Save' on the larger database window (upper left)
+	
+7) Import the first timepoint of data
+	Go to 'Import' tab (#3)
+	Work from top to bottom on the right hand side of the window
+		Type of object: 'Image'
+		Dimension: Choose 2D (Time and Channel)
+		Object Name: 'Raw'
+		Click 'Choose files'
+		Click 'Load'
+		Choose the folder with the tif's
+		Check the box to 'Keep files with extension: tif'
+		Click 'Re-filter'
+		Click 'Ok'
+		File Dealing Oder:
+			1) Channel > 3 > c (lower case)
+			2) Array Column (leave everything else in this row alone)
+			3) Array Row (leave everything else in this row alone)
+			4) Time > 1 > t (lower case)
+		Check the box to 'Create Virtual Object'
+		Select all wells (turning them red)
+		Click 'Deal files'
+		Click 'Import'
+		
+8) Process the first timepoint
+	Click the 'Process' tab (#5)
+	Click 'Load'
+	Use the file browser to go into the last database you analyzed
+		> double click the dataset folder (typically 'Plate')
+		> double click the folder named 'Cell_x0_y0'
+		> double click the folder of the workflow you want to import
+		> select the 'x0_y0.jxd' file
+		> click 'Open'
+	Run each step except the first, in sequence, up through 'Find Maxima Segmentation'
+	(The longest processing step is the 'TIE Phase Calculator')
+	Click 'SAVE TO DB' to save the workflow into this database
+		You should do this whenever you alter a parameter to keep the saved workflow up to date
+	
+9) Check to see if cells are being correctly identified and alter 'Find Maxima Segementation' thresholds if necessary
+	Threshold = the minimum possible value that a maxima can have
+	Tolerance = the minimum required valley between two maxima
+
+10) Rerun remaining steps if necessary
+	Goal is to obtain a 'Feature CSV Table' object for the first timepoint
+
+11) Turn on autoupdate to run the rest of the timepoints as they are imaged
+	Click 'Auto-Updating' checkbox to turn it ON
+	Click 'RUN ALL'
+	
+12) Check the next day to see if 'Auto-Updating' is still working. If not...
+	Click 'Auto-Updating' checkbox to turn it OFF
+	Then Click 'Auto-Updating' checkbox to turn it ON
+	Click 'RUN ALL' and the next batch of finished timepoints will be added to the queue
+	
+
+RStudio:
+
+1) Make a new R project
+	File > New Project...
+	Select 'New Directory'
+	Select 'New Project'
+	Enter the raw data folder name as the 'Directory name'
+	Select a folder on the smlab share to put this directory/project.
+	Click 'Create Project'
+	
+2) Open the last Analysis R-script that you created to use a template.
+	File > Open File
+	(e.g., from the last R project you created)
+	
+3) Create a new script based upon the template file.
+	File > New File > R Script
+	Copy the contents of the template file to your new file
+	Close the template file
+	Save the new file to the project directory (careful, the browser will open up to the location where you
+grabbed the template file)
+		File > Save...
+		Name it something like 'Analyze Pt 645.R'
+	Edit fields near the top (~ lines 12-24) to be specific to your project
+		Notes are in the file to guide you
+	Go to JEX
+		Click the 'Plugins' tab (#7)
+		Click on the topmost 'Feature CSV Table' object name
+		Click on the 'R Scripter' button on the far right
+		Click on the 'Get File Table' button
+		Copy from 'jData <- list()' all the way down to 'jData <- rbindlist(jData)'
+		Go to RStudio
+			Replace the analogous code with what is on the clipboard
+	
+4) Read in the data and normalize it
+	Run from the top of the file all the way through to the end of 'STEP A'
+	
+5) In 'STEP B'
+	Run the first call to 'getThresholds'
+	This one is focused on finding the nuclear signal threshold. Higher is more dead
+	Look at the plot, and choose which threshold line seems most appropriate and choose the corresponding threshold returned by 'getThresholds'. Thresh.p is the thing gray line. Thresh.clust are the dashed lines (potentially more than 1). To choose a cluster threshold, they are numbered from left-to-right. To choose the first you would write Thresh <- Thresh.clust[1]. The second would be Thresh.clust[2] etc. Typically you will choose NucThresh.clust[1]
+	
+6) In 'STEP C'
+	Do the same as you did for 'STEP B'
+	This focuses on the Phase channel instead. Lower is more dead
+	
+7) Run ALL of 'STEP D'
+	If the last plot of Cell number vs Time shows that any particular replicate is super weird, consider removing
+	
+8) Remove spurrious replicates in 'STEP E'
+	Refer to template code.
+	
+9) Run ALL of 'STEP F'
+
+10) In 'STEP G'
+	Run the first line to show all the possible Tx's
+	Define which Tx's you want to plot by saving a vector of the Tx names into a variable called 'Txs'
+	[e.g., Txs <- c('Bort','Dex','Veh')]
+	
+11) Run ALL of 'STEP H'
+
+Done. 
+
+(You can run this periodically while the scope is imaging to see how the sample is progressing)
+	
+	
+	
+	
+
+	
+	
+
+
+
